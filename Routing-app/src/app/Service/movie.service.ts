@@ -1,20 +1,24 @@
 // Importing required libraries.
 import { Injectable } from "@angular/core"
 import { Movie, IRating } from "./movie"
+import { MOVIES } from "./movie-list"
 
 @Injectable()
 export class MovieService {
-    // Movie collection Array
-    movieList: Array<Movie> = new Array<Movie>();
     
     // Get movie data.
-    getMovieList() {
-        return this.movieList = [];
+    getMovieList(): Promise<Movie[]> {
+        return Promise.resolve(MOVIES);
     }
 
     // Add movie data.
     addMovie(currentMovie: Movie) {
-        this.movieList.unshift(currentMovie);
+        this.getMovieList().then(movieList => {
+            let maxIndex = movieList.length - 1;
+            let movieWithMaxIndex = movieList[maxIndex];
+            currentMovie.id = movieWithMaxIndex.id + 1;
+            movieList.push(currentMovie);
+        })
     }
 }
 

@@ -3,18 +3,16 @@ import { Component, Injectable } from "@angular/core"
 import { Movie, IRating } from "../Service/movie"
 import { MovieService, RatingService } from "../Service/movie.service"
 import { FormBuilder, FormGroup, FormControl, Validators} from "@angular/forms"
+import { Router } from "@angular/router"
 
 @Component({
-    selector: "movie-app",
-    templateUrl: "../View/movie.Component.html",
+    selector: "movie-add",
+    templateUrl: "../View/add-movie.component.html",
     providers: [MovieService, RatingService]
 })
-export class MovieComponent {
+export class AddMovieComponent {
     // Binding Logic.
     currentMovie: Movie = new Movie();
-
-    // List of Movies.
-    listOfMovies: Array<Movie> = new Array<Movie>();
 
     // Rating list array.
     movieRatings: IRating[] = [];
@@ -27,7 +25,7 @@ export class MovieComponent {
 
 
     // Injecting services into constructor. 
-    constructor(private _movieService: MovieService, private _ratingService: RatingService, private _formBuilder: FormBuilder) {}
+    constructor(private _router: Router, private _movieService: MovieService, private _ratingService: RatingService, private _formBuilder: FormBuilder) {}
 
     // Initialising  Form Grpup, drop down and movies
     ngOnInit() {
@@ -40,14 +38,21 @@ export class MovieComponent {
         'releaseDate': ['', Validators.compose([Validators.required])]
       });
 
-      this.listOfMovies = this._movieService.getMovieList();
       this.movieRatings = this._ratingService.getRatings();
-      this.searchMovie = ""; // Initialising search field value.
+
+      // Setting initials field values.
+      this.formMovie.patchValue({
+          'imageUrl': 'Raj',
+          'name': "Raja",
+          'description': "Raja hindustani",
+          'rating': 5,
+      });
     }
 
     // Adding movie to movie list
     addMovie() {
         this._movieService.addMovie(this.currentMovie);
+        this._router.navigate(["/list-movie"]); // Redirect to Movie list page.
         this.currentMovie = new Movie(); // Clearing Object.
         this.formMovie.reset();; // Reset form after submiting Movie info.
     }

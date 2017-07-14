@@ -1,5 +1,6 @@
 // Class Movie.
 export class Movie {
+    id: number;
     imageUrl: string;
     name: string;
     description: string;
