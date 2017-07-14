@@ -40,13 +40,6 @@ export class AddMovieComponent {
 
       this.movieRatings = this._ratingService.getRatings();
 
-      // Setting initials field values.
-      this.formMovie.patchValue({
-          'imageUrl': 'Raj',
-          'name': "Raja",
-          'description': "Raja hindustani",
-          'rating': 5,
-      });
     }
 
     // Adding movie to movie list
